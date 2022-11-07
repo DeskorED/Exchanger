@@ -2,11 +2,14 @@ import Input from "./Input";
 import {useState} from "react";
 
 function ExchangeInputs(props) {
-
+    const conversionRates = props.response.conversion_rates;
     const [value, setValue] = useState(1);
 
     function onChange(state, value) {
-        setValue(value / props.response['conversion_rates'][state]);
+        if (isNaN(value))
+            value = '';
+        else value = (value / conversionRates[state]).toFixed(2);
+        setValue(value);
     }
 
     return <>

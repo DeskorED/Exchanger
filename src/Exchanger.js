@@ -4,19 +4,27 @@ import ExchangeInputs from "./ExchangeInputs";
 
 const URL = "https://v6.exchangerate-api.com/v6/b134acd26381dc39a5619dc2/latest/UAH";
 
-function Exchanger(){
+function Exchanger() {
 
     const [response, setResponse] = useState(null)
 
-    fetch(URL).then(
-        value => {
-            setResponse(value)
-        }
-    );
+    fetch(URL, {method: "GET"})
+        .then((response) =>
+            response.json())
+        .then((data) => {
+            setResponse(data)
+        })
 
+    if(response){
+        return <>
+            <Header response={response}/>
+            <ExchangeInputs response={response}/>
+        </>
+    }
     return <>
-        <Header response={response}/>
-    `   <ExchangeInputs response={response}/>
+        <label>Конвертер валют</label>
     </>
+
 }
+
 export default Exchanger

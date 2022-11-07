@@ -1,14 +1,15 @@
 import {useState} from "react";
 
 function Input(props) {
+    const conversionRates = props.response.conversion_rates;
     const [state, setState] = useState("USD");
-    const value = props.value * props.response['conversion_rates'][state];
+    const value = props.value * conversionRates[state];
 
     const optionArray = []
 
-    for (let key of props.response['conversion_rates'].keys()) {
+    for (let key of Object.keys(conversionRates)) {
         optionArray.push(<option key={key} value={key}>
-                {key}
+                {key.toString()}
             </option>
         )
     }
@@ -21,9 +22,9 @@ function Input(props) {
                     }}>
                 {optionArray}
             </select>
-            <input onChange={(event) => {
+            <input type="text"  pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"  onChange={(event) => {
                 props.onChange(state, event.target.value)
-            }}>{value}</input>
+            }} value={value}/>
         </div>
     )
 
